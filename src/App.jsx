@@ -1,5 +1,11 @@
-import useFetch from './component/useFetch';
 import './assets/index.css';
+
+import { HashRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
+
+import useFetch from './component/useFetch';
+
+import Home from './pages/Home';
+import About from './pages/About';
 
 function App() {
 	const { data, loading, error } = useFetch(
@@ -10,25 +16,24 @@ function App() {
 	if (error) console.log(error);
 
 	return (
-		<>
-			<div className='h-96 w-full m-4'>
-				<img
-					src={data?.image}
-					alt={data?.title}
-					className='h-52 w-52 object-contain'
-				/>
-				<h1>{data?.title}</h1>
-				<h2>{data?.price}</h2>
-				<div className='flex flex-row'>
-					<div className='mr-4'>{data?.rating?.rate}</div>
-					<div>{data?.rating?.count}</div>
-				</div>
-			</div>
-			;
-			{/* {data?.abilities.map((item, index) => (
-				<p key={index}>{item.ability.name}</p>
-			))} */}
-		</>
+		<HashRouter>
+			<header className='mx-5'>
+				<nav>
+					<h1 className='text-xl font-bold'>Testing Router GH-pages</h1>
+					<Link to='/' className='mr-2'>
+						Home
+					</Link>
+					<NavLink to='about'>About</NavLink>
+				</nav>
+			</header>
+
+			<main>
+				<Routes>
+					<Route index element={<Home data={data} />} />
+					<Route path='about' element={<About />} />
+				</Routes>
+			</main>
+		</HashRouter>
 	);
 }
 
